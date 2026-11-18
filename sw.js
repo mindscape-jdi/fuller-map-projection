@@ -1,7 +1,7 @@
 // Offline cache so the clock keeps working without a network.
-const CACHE = "fuller-projection-clock-v4";
+const CACHE = "fuller-projection-clock-v5";
 const FILES = [
-  "./", "index.html", "styles.css", "app.js", "sun.js", "fastfaces.js", "fold.js", "globe.js", "sky.js", "skyview.js",
+  "./", "index.html", "styles.css", "app.js", "sun.js", "fastfaces.js", "fold.js", "globe.js", "declination.js", "sky.js", "skyview.js",
   "icon.svg", "manifest.webmanifest",
   "data/land-50m.json", "data/shipping.json", "data/flights.json", "data/rail.json", "data/sky.json",
   "vendor/d3.min.js", "vendor/d3-geo-projection.min.js", "vendor/d3-geo-polygon.min.js",

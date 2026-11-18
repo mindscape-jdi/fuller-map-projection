@@ -66,6 +66,7 @@ const els = {
   showRail: $("showRail"),
   spin: $("spin"),
   showCons: $("showCons"),
+  showDecl: $("showDecl"),
   showPlanets: $("showPlanets"),
   skyLabels: $("skyLabels"),
   skyFrom: $("skyFrom"),
@@ -572,8 +573,11 @@ els.jump.addEventListener("change", () => {
 );
 els.spin.addEventListener("change", () => globe && globe.setAutoRotate(els.spin.checked));
 function applySky() {
-  if (globe) globe.setSky({ constellations: els.showCons.checked, planets: els.showPlanets.checked });
+  if (!globe) return;
+  globe.setSky({ constellations: els.showCons.checked, planets: els.showPlanets.checked });
+  globe.setDeclination(els.showDecl.checked);
 }
+els.showDecl.addEventListener("change", applySky);
 els.showCons.addEventListener("change", applySky);
 els.showPlanets.addEventListener("change", applySky);
 els.globeBtn.addEventListener("click", toggleGlobe);

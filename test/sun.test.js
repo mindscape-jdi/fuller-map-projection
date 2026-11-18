@@ -72,3 +72,14 @@ test("globe orientation tilts the North Pole toward the sun in June", () => {
   assert.ok(june[0] > 0.39, "June: pole leans toward the sun (+x)");
   assert.ok(dec[0] < -0.39, "December: pole leans away from the sun");
 });
+
+test("the sun line meets the equator plane at the solar declination", () => {
+  for (const iso of ["2024-06-20T20:51:00Z", "2024-12-21T09:20:00Z", "2026-11-18T12:00:00Z"]) {
+    const d = new Date(iso);
+    const m = earthToScene(d, -25);
+    const north = [m[0][2], m[1][2], m[2][2]];
+    const sun = [Math.cos(-25 * Math.PI / 180), 0, -Math.sin(-25 * Math.PI / 180)];
+    const angle = Math.asin(north.reduce((s, v, i) => s + v * sun[i], 0)) * 180 / Math.PI;
+    near(angle, subsolarPoint(d).lat, 1e-9, `${iso} declination`);
+  }
+});
