@@ -15,6 +15,7 @@ A live world clock drawn on R. Buckminster Fuller's **icosahedral world map (the
   - **Flights:** the 2,500 busiest direct airport pairs from the [OpenFlights](https://openflights.org/data.html) route database (2014, ODbL), drawn as great circles. Brighter = more airlines on the route.
   - **Railways** from Natural Earth 1:10m (public domain).
 - **Fold into a globe.** One tap folds the Fuller projection net along its real hinges into an icosahedron, inflates it into a sphere and floats it in space (three.js). The globe is lit by the sun from its true direction, with Earth's 23.44° axial tilt shown relative to the sun, so seasons, polar day/night and the terminator are physically correct. Drag to turn it, pinch or scroll to zoom, and it slowly orbits on its own (toggle "Orbit"). The time controls spin it too.
+- **Solar declination, made visible.** On the globe, Earth's axis and a line to the Sun both pass through Earth's centre. An arc marks the angle between the Sun line and the equator plane (the declination, e.g. δ −19.4°), the gold circle shows the latitude where the Sun is overhead today, and faint circles mark the tropics it swings between. A caption says which way it's moving and how fast. Toggle with "Declination".
 - **The sky around the globe.** In globe view, 1,600 real stars (to magnitude 5, coloured by temperature) and 46 major constellations (the best-known figures, all 12 of the zodiac, Crux and Ursa Minor) surround Earth, with Polaris sitting just off the North Pole. The Moon (with its correct phase, enlarged 4×) and the five naked-eye planets (Mercury, Venus, Mars, Jupiter, Saturn) are shown where they really are at the displayed time. Positions match a full ephemeris (Astronomy Engine) to within about 0.2°. Toggle with "Constellations" and "Moon & planets".
 - **Sky from where you are.** In globe view, "Sky from" puts the camera on the far side of Earth looking straight through it along your line of sight, so the stars, constellations, Moon and planets appear exactly as you'd see them looking up from your spot (or any of the 20 cities). The globe turns see-through with your position marked, a horizon hides what's below it, compass points show direction, and the sky turns with real time. Drag to look around; the sky turns blue when the sun is up there.
 - **Solar noon line.** The sun's path for ±12 hours, marked with the UTC hour at which it's noon at each spot.
@@ -56,6 +57,7 @@ Checks the solar maths against almanac values for solstices, equinoxes and the e
 | `sun.js` | Solar position and altitude maths, and the Earth-to-scene rotation for the globe |
 | `fold.js` | Geometry that folds the Fuller projection net into an icosahedron and sphere |
 | `globe.js` | 3D globe view (loaded only when you open it) |
+| `declination.js` | Axis, Sun line, equator, tropics and declination arc on the globe |
 | `sky.js` | Planet (JPL approximate elements) and Moon positions, and sky-to-scene rotations |
 | `skyview.js` | Stars, constellations, planets and Moon around the globe |
 | `fastfaces.js` | Faster face lookup for the Fuller projection |

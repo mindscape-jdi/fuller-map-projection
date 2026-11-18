@@ -11,6 +11,7 @@ import * as THREE from "./vendor/three.module.min.js";
 import { buildNet } from "./fold.js";
 import { subsolarPoint, earthToScene, lonLatToVec, HORIZON } from "./sun.js";
 import { createSky } from "./skyview.js";
+import { createDeclination } from "./declination.js";
 import { observerFrame } from "./sky.js";
 import { phaseOf, sunAltitude } from "./sun.js";
 
@@ -153,6 +154,8 @@ export function createGlobe({ canvas, d3, getTime, drawTexture, labelLayer }) {
   scene.add(atmosphere);
 
   const sky = createSky({ scene, sunDir: sunScene, labelLayer, pixelRatio: renderer.getPixelRatio() });
+  const decl = createDeclination({ scene, sunDir: sunScene, sunAzimuth: SUN_AZIMUTH, labelLayer });
+  let showDecl = true;
 
   // "Sky from here": a marker for the observer and compass/status labels.
   const marker = new THREE.Mesh(
@@ -283,9 +286,13 @@ export function createGlobe({ canvas, d3, getTime, drawTexture, labelLayer }) {
     renderer.setClearColor(clearNight.clone().lerp(clearDay, day));
 
     sky.update(date, camera, SUN_AZIMUTH, ease(state.morph), ease(state.morph) * (1 - k), frameObs && frameObs.zenith, k);
+    // Declination guides: only on the finished globe, not in "sky from here".
+    const declAmount = showDecl ? Math.max(0, (state.morph - 0.85) / 0.15) * (1 - k) : 0;
+    decl.update(date, declAmount);
     renderer.render(scene, camera);
     const w = canvas.clientWidth, h = canvas.clientHeight;
     sky.updateLabels(camera, w, h);
+    decl.updateLabels(camera, w, h, declAmount > 0.5);
     updateFocusLabels(date, frameObs, k, w, h);
     requestAnimationFrame(frame);
   }
@@ -398,6 +405,7 @@ export function createGlobe({ canvas, d3, getTime, drawTexture, labelLayer }) {
     stop() {
       running = false;
       sky.hideLabels();
+      decl.hide();
       compass.forEach((el) => (el.style.display = "none"));
       status.style.display = "none";
     },
@@ -406,6 +414,9 @@ export function createGlobe({ canvas, d3, getTime, drawTexture, labelLayer }) {
     },
     setSky(options) {
       sky.set(options);
+    },
+    setDeclination(on) {
+      showDecl = on;
     },
     resize,
     redrawTexture() {
